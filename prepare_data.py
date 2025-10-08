@@ -106,10 +106,10 @@ def sample_negative_pairs(groups: List[List[str]], num_pairs: int) -> List[Tuple
     return pairs
 
 
-def write_tsv(path: str, rows: List[Tuple[str, str, int]]):
+def write_csv(path: str, rows: List[Tuple[str, str, int]]):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     with open(path, 'w', encoding='utf-8', newline='') as f:
-        writer = csv.writer(f, delimiter='\t')
+        writer = csv.writer(f, delimiter=',')
         writer.writerow(["entity1", "entity2", "label"])  # 保留表头
         for a, b, y in rows:
             writer.writerow([a, b, y])
@@ -134,10 +134,11 @@ def main():
     random.shuffle(train_rows)
     random.shuffle(test_rows)
 
-    write_tsv(os.path.join(args.output_dir, 'train.tsv'), train_rows)
-    write_tsv(os.path.join(args.output_dir, 'test.tsv'), test_rows)
+    write_csv(os.path.join(args.output_dir, 'train.csv'), train_rows)
+    write_csv(os.path.join(args.output_dir, 'test.csv'), test_rows)
     print(f"Wrote {len(train_rows)} train and {len(test_rows)} test samples to '{args.output_dir}'.")
 
 
 if __name__ == '__main__':
     main()
+
